@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autokauppa</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .car-card {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .carousel-item img {
+            max-height: 600px;
+            width: auto;
+            margin: auto;
+        }
+        .carousel-caption {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CarShop 2.1</h1>
+        <% documents.forEach(doc => { %>
+            <div class="car-card">
+                <% if (doc.car_images && doc.car_images.length > 0) { %>
+                    <div id="carousel<%= doc._id %>" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            <% for (let i = 0; i < doc.car_images.length; i++) { %>
+                                <li data-target="#carousel<%= doc._id %>" data-slide-to="<%= i %>" <% if (i === 0) { %>class="active"<% } %>></li>
+                            <% } %>
+                        </ol>
+                        <div class="carousel-inner">
+                            <% doc.car_images.forEach((image, index) => { %>
+                                <div class="carousel-item <% if (index === 0) { %>active<% } %>">
+                                    <img src="<%= image %>" class="d-block w-100" alt="Car Image">
+                                    <div class="carousel-caption">
+                                        <h5>Image <%= index + 1 %></h5>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                        <a class="carousel-control-prev" href="#carousel<%= doc._id %>" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel<%= doc._id %>" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                <% } else { %>
+                    <p>Image not found</p>
+                <% } %>
+                <h2><%= doc.brand %> <%= doc.model %> - <%= doc.year %></h2>
+                <p><span class="highlight">Color:</span> <%= doc.color %></p>
+                <p><span class="highlight">Transmission:</span> <%= doc.transmission %></p>
+                <p><span class="highlight">Odometer:</span> <%= doc.odometer %></p>
+                <p><span class="highlight">Drive type:</span> <%= doc.drive_type %></p>
+            </div>
+        <% }); %>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
